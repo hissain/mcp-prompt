@@ -26,20 +26,55 @@ Review the changes and provide constructive feedback.
 def run_cline_process(prompt, output_queue):
     """Runs the Cline CLI with the given prompt and streams output to a queue."""
     try:
+        # Prepare environment with NVM/Node path to ensure cline and node are found
+        env = os.environ.copy()
+        # Add the specific node path found: /Users/hissain/.nvm/versions/node/v22.18.0/bin
+        node_bin_path = "/Users/hissain/.nvm/versions/node/v22.18.0/bin"
+        if node_bin_path not in env["PATH"]:
+            env["PATH"] = f"{node_bin_path}:{env['PATH']}"
+
+        # Debug: Print Node version being used
+        debug_command = "which node && node --version"
+        try:
+            debug_process = subprocess.run(
+                debug_command, 
+                shell=True, 
+                env=env, 
+                capture_output=True, 
+                text=True
+            )
+            output_queue.put(f"[DEBUG] Node Check:\n{debug_process.stdout}")
+        except Exception as deb_err:
+             output_queue.put(f"[DEBUG] Node Check Failed: {deb_err}")
+
+
         # Construct the command
-        # Using --yolo for non-interactive mode as requested
-        # echo "prompt" | cline --yolo
-        command = f'echo "{prompt}" | cline --yolo'
+        # Use a login shell to ensure all user environment variables (NVM, etc.) are loaded exactly as in the terminal
+        # This resolves issues where subprocess doesn't have the full context needed by cline
+        command = ["/bin/bash", "-l", "-c", "cline --yolo"]
         
         process = subprocess.Popen(
             command,
-            shell=True,
+            shell=False,
+            env=env,
+            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            bufsize=1,  # Line buffered
+            bufsize=1,
             universal_newlines=True
         )
+        
+        # Write prompt to stdin in a separate thread to avoid deadlock
+        def write_input():
+            try:
+                process.stdin.write(prompt)
+                process.stdin.close()
+            except Exception as e:
+                output_queue.put(f"[INTERNAL_ERROR] Failed to write to stdin: {e}")
+
+        input_thread = threading.Thread(target=write_input)
+        input_thread.start()
 
         # Read stdout and stderr in separate threads or sequential loops
         # Since we want to stream, we'll read line by line
