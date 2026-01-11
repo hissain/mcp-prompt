@@ -1,8 +1,8 @@
-# 🤖 Cline Code Review Agent
+# Cline Code Review Agent
 
 A Streamlit-based application that leverages Cline AI to perform automated code reviews on GitHub Pull Requests with a focus on Android application development.
 
-## 📋 Overview
+## Overview
 
 This tool automates the code review process by:
 - Fetching Pull Request changes from GitHub
@@ -10,7 +10,7 @@ This tool automates the code review process by:
 - Generating expert-level review comments focusing on Android best practices
 - Providing feedback on performance, memory leaks, lifecycle issues, and modern Android practices
 
-## 🚀 Prerequisites
+## Prerequisites
 
 ### Required Software
 1. **Node.js v20+** - Required for Cline
@@ -26,7 +26,7 @@ Configure Cline with your AI provider (Anthropic, OpenAI, etc.):
 cline config set
 ```
 
-## 📦 Installation
+## Installation
 
 1. **Clone the repository:**
    ```bash
@@ -48,7 +48,7 @@ cline config set
    }
    ```
 
-## 🎯 Usage
+## Usage
 
 ### Starting the Application
 
@@ -237,13 +237,13 @@ Uses Python subprocess with:
 - Error detection and retry logic
 - YOLO mode (`--yolo`) for autonomous operation
 
-## 📊 Output Files
+## Output Files
 
 Generated during review process:
 - `pr_changes.diff` - Complete diff between branches
 - `review_comments.md` - AI-generated review comments
 
-## 🤝 Contributing
+## Contributing
 
 To modify the review focus or add features:
 
@@ -251,7 +251,7 @@ To modify the review focus or add features:
 2. Modify `app.py` for UI/workflow changes
 3. Update `config.json` for different projects
 
-## 📝 Available Cline Commands
+## Available Cline Commands
 
 Reference for manual operations:
 
@@ -270,24 +270,24 @@ cline config set            # Interactive config setup
 cline log list              # List available logs
 ```
 
-## ⚡ Performance Tips
+## Performance Tips
 
 1. **Reuse instances**: Don't create new instances for each review
 2. **Monitor logs**: Check `~/.cline/logs/` for issues
 3. **Rate limits**: Space out reviews if hitting API limits
 4. **File size**: Large diffs may require increased timeout values
 
-## 🔒 Security Notes
+## Security Notes
 
 - API keys are managed through Cline config
 - Never commit API keys to version control
 - Review generated comments before posting publicly
 
-## 📄 License
+## License
 
 [Add your license information here]
 
-## 🙋 Support
+## Support
 
 For issues related to:
 - **Cline CLI**: https://github.com/cline/cline/issues
