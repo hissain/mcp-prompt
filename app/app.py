@@ -14,14 +14,26 @@ st.markdown("Enter the repository URL and Pull Request ID to start an autonomous
 pr_url = st.text_input("Pull Request URL", placeholder="https://github.com/owner/repo/pull/123")
 
 # Prompt template
-PROMPT_TEMPLATE = """
-Please perform a comprehensive code review for the pull request: {pr_url}
+# Prompt loading
+PROMPT_FILE = "agent_prompt.md"
+
+def load_prompt():
+    if os.path.exists(PROMPT_FILE):
+        with open(PROMPT_FILE, "r") as f:
+            return f.read()
+    else:
+        # Fallback template if file is missing
+        return """
+Please perform a comprehensive code review for the pull request.
 Focus on:
 1. Code quality and best practices
 2. Potential bugs and security vulnerabilities
 3. Performance improvements
 Review the changes and provide constructive feedback.
 """
+
+BASE_PROMPT = load_prompt()
+
 
 def run_cline_process(prompt, output_queue):
     """Runs the Cline CLI with the given prompt and streams output to a queue."""
@@ -112,12 +124,13 @@ def start_review():
     st.session_state.running = True
     st.session_state.logs = []
     
-    prompt = PROMPT_TEMPLATE.format(pr_url=pr_url)
+    # Combine base prompt with the specific PR URL context
+    full_prompt = f"{BASE_PROMPT}\n\nTarget Pull Request URL: {pr_url}"
     st.session_state.logs.append(f"Starting review for {pr_url}...\n")
-    st.session_state.logs.append(f"Prompt:\n{prompt}\n")
+    st.session_state.logs.append(f"Prompt content loaded from {PROMPT_FILE}\n")
     
-    # Start the process in a separate thread to not block UI
-    thread = threading.Thread(target=run_cline_process, args=(prompt, st.session_state.output_queue))
+    # Start the process
+    thread = threading.Thread(target=run_cline_process, args=(full_prompt, st.session_state.output_queue))
     thread.daemon = True
     thread.start()
 
