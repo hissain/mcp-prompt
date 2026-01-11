@@ -46,45 +46,62 @@ def check_cline_config():
     except Exception as e:
         return False, str(e)
 
+instance_lock = threading.Lock()
+
 def ensure_cline_instance():
     """Ensure a Cline instance is running"""
-    try:
-        result = subprocess.run(
-            ["cline", "instance", "list"],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
-        
-        if result.returncode == 0 and ("localhost" in result.stdout or "127.0.0.1" in result.stdout):
-            return True, "Instance already running"
-        
-        # Create new instance if none exists
-        result = subprocess.run(
-            ["cline", "instance", "new", "--default"],
-            capture_output=True,
-            text=True,
-            timeout=20
-        )
-        
-        if result.returncode != 0:
-            return False, f"Failed to start instance: {result.stderr}"
-        
-        for i in range(10):
-            time.sleep(1)
-            check_result = subprocess.run(
+    # Use lock to prevent multiple threads from creating instances simultaneously
+    with instance_lock:
+        try:
+            # Check for existing instances
+            result = subprocess.run(
                 ["cline", "instance", "list"],
                 capture_output=True,
                 text=True,
-                timeout=5
+                timeout=10
             )
-            if "localhost" in check_result.stdout or "127.0.0.1" in check_result.stdout:
-                return True, f"Instance started (took {i+1}s)"
-        
-        return False, "Instance started but not responding"
-        
-    except Exception as e:
-        return False, f"Error: {str(e)}"
+            
+            # Robust check for active instances
+            if result.returncode == 0:
+                # Look for lines containing "SERVING" and ("localhost" or "127.0.0.1")
+                lines = result.stdout.splitlines()
+                for line in lines:
+                    if "SERVING" in line and ("localhost" in line or "127.0.0.1" in line):
+                        return True, "Instance already running"
+            
+            # Create new instance if none exists
+            # First, try to kill any potential zombie instances just in case
+            subprocess.run(["cline", "instance", "kill", "-a"], capture_output=True, timeout=10)
+            
+            result = subprocess.run(
+                ["cline", "instance", "new", "--default"],
+                capture_output=True,
+                text=True,
+                timeout=30  # Increased timeout for creation
+            )
+            
+            if result.returncode != 0:
+                return False, f"Failed to start instance: {result.stderr}"
+            
+            # Wait for it to be ready
+            for i in range(15):  # Increased wait attempts
+                time.sleep(1)
+                check_result = subprocess.run(
+                    ["cline", "instance", "list"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5
+                )
+                if check_result.returncode == 0:
+                    lines = check_result.stdout.splitlines()
+                    for line in lines:
+                        if "SERVING" in line and ("localhost" in line or "127.0.0.1" in line):
+                            return True, f"Instance started (took {i+1}s)"
+            
+            return False, "Instance started but not responding (timeout)"
+            
+        except Exception as e:
+            return False, f"Error: {str(e)}"
 
 def extract_rate_limit_info(error_text):
     """Extract rate limit information from error message"""
@@ -112,18 +129,16 @@ def run_cline_with_retry(prompt, output_queue, max_retries=3):
                 output_queue.put(f"\n[RETRY] Attempt {attempt + 1} of {max_retries}...\n")
             
             output_queue.put("[INFO] Checking Cline instance...\n")
-            instance_result = subprocess.run(
-                ["cline", "instance", "list"],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                env=env
-            )
             
-            if "localhost" not in instance_result.stdout and "127.0.0.1" not in instance_result.stdout:
-                output_queue.put("[ERROR] No Cline instance found.\n")
+            # Use the robust ensure_function
+            instance_success, instance_msg = ensure_cline_instance()
+            
+            if not instance_success:
+                output_queue.put(f"[ERROR] {instance_msg}\n")
                 output_queue.put("[PROCESS COMPLETED] Return Code: 1\n")
                 return
+            
+            output_queue.put("[INFO] Instance verified. Starting review process...\n")
             
             output_queue.put("[INFO] Starting review process...\n")
             
