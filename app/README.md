@@ -67,12 +67,17 @@ cline config set
    127.0.0.1:52727   │ SERVING  │ 3.47.0  │ ...
    ```
 
-3. **Launch the Streamlit app:**
+3. **Kill all Cline instances:**
+   ```bash
+   cline instance kill -a
+   ```
+
+4. **Launch the Streamlit app:**
    ```bash
    streamlit run app.py
    ```
 
-4. **Open your browser:**
+5. **Open your browser:**
    The app will automatically open at `http://localhost:8501`
 
 ### Using the Interface
