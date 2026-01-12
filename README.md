@@ -85,7 +85,7 @@ cline config set
 4. View generated review comments
 5. Export results if needed
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 app/
@@ -98,7 +98,7 @@ app/
 └── agent_prompt.md     # AI agent instructions for code review
 ```
 
-## 🔧 How It Works
+## How It Works
 
 ### Review Process Flow
 
@@ -139,7 +139,7 @@ app/
 - **Error Recovery**: Graceful handling of API quota and timeout issues
 - **Interactive UI**: User-friendly Streamlit interface
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "No Cline instances found"
 
@@ -221,7 +221,7 @@ Contains the AI agent instructions focusing on:
 - UI/UX consistency
 - Library usage and best practices
 
-## 🛠️ Technical Implementation
+## Technical Implementation
 
 ### Cline Instance Management
 
@@ -285,6 +285,35 @@ cline log list              # List available logs
 - API keys are managed through Cline config
 - Never commit API keys to version control
 - Review generated comments before posting publicly
+
+## Testing & Verification
+
+### 1. Build the MCP Server
+To verify the prompt server specifically:
+
+```bash
+cd mcp-server
+npm install
+npm run build
+```
+
+### 2. Configure MCP Client
+Add the server to your MCP client configuration (e.g., `claude_desktop_config.json` or VS Code extension settings):
+
+```json
+"code-review-prompts": {
+  "command": "node",
+  "args": ["/absolute/path/to/mcp-prompt/mcp-server/dist/index.js"]
+}
+```
+
+### 3. Verification Steps
+1. **Check Connection**: Ensure the "code-review-prompts" server shows a green/connected status in your client.
+2. **List Prompts**: Use the `list_available_prompts` tool. You should see a list including:
+   - `android-short`, `android-medium`, `android-detailed`
+   - `java-short`, `java-medium`
+   - `kotlin-short`, etc.
+3. **Test a Prompt**: Select a prompt (e.g., "Android Code Review (Short)") and verify it returns the structured instructions starting with "Core Objectives" and "Execution Workflow".
 
 ## License
 
