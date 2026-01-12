@@ -315,6 +315,19 @@ Add the server to your MCP client configuration (e.g., `claude_desktop_config.js
    - `kotlin-short`, etc.
 3. **Test a Prompt**: Select a prompt (e.g., "Android Code Review (Short)") and verify it returns the structured instructions starting with "Core Objectives" and "Execution Workflow".
 
+### 4. Local Verification with Inspector
+You can verify the server locally without configuring a full client using the MCP Inspector tool:
+
+```bash
+# From the project root
+npx @modelcontextprotocol/inspector node mcp-server/dist/index.js
+```
+
+This will launch a web interface where you can:
+- List available tools
+- Execute tools with custom arguments
+- View server logs and responses in real-time
+
 ## License
 
 [Add your license information here]
