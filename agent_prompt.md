@@ -15,17 +15,19 @@ Please follow these steps strictly:
 4.  **Diff Extraction**:
     *   Generate a diff between the feature branch and the target branch.
     *   Ensure the diff captures all changes.
+    *   Ensure the diff reflects changes between the feature branch and the target branch.
 
 5.  **Context Preservation**:
     *   Save this diff to a local file (e.g., `pr_changes.diff`).
     *   If possible, include full file context for the modified files to ensure you have complete understanding.
+    *   For reasonable number of files within the diff, if related files are available locally, you can read them to get more context.
 
 6.  **Code Review Generation**:
     *   Read the saved diff/context file.
     *   Generate expert-level code review comments focusing **exclusively** on Android application development perspectives (e.g., performance, memory leaks, lifecycle issues, Modern Android practices, Kotlin/Java idioms, UI/UX consistency, library usage).
     *   Save these review comments to a local file (e.g., `review_comments.md`).
     *   Dont become too much elaborative, pin point specific issue and refer critical part like File name (not full file path), Line numbers while discussing.
-    *   Do not use title, headers or bullet points, simply discuss major issues and recommendations within couple of paragraphs.
+    *   Do not use title, headers or bullet points, simply discuss major issues and recommendations within couple of paragraphs (not more that 3/4 paragraphs).
 
 7.  **User Verification**:
     *   Display the generated review comments to the user.
