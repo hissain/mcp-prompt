@@ -1,0 +1,30 @@
+{
+  "name": "mcp-code-review-prompts",
+  "version": "1.0.0",
+  "description": "MCP server for retrieving code review prompts by platform and detail level",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-code-review-prompts": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "code-review",
+    "prompts",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.28",
+    "typescript": "^5.0.0"
+  }
+}
