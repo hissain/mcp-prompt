@@ -197,7 +197,7 @@ streamlit run app.py --server.port 8502
 pip install -r requirements.txt
 ```
 
-## 🔍 Configuration Details
+## Configuration Details
 
 ### config.json
 
