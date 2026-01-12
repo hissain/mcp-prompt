@@ -34,8 +34,9 @@ Follow these steps strictly:
 - Explore only the contents of the files within the change list.
 
 6. Code Review Generation:
-- Review only the changes introduced by this PR.
-- Focus exclusively on Android engineering concerns and only the critical or major concering changes:
+- Review only the changes introduced by this PR (address only the critical or major area of improvements for the CL).
+- Do not add summary, strength and so on of the changes.
+- Focus exclusively on Android engineering concerns:
   performance, memory, lifecycle, architecture, idiomatic Kotlin/Java, UI consistency.
 - Be concise and precise.
 - Refer to file names and line numbers only not the full while commenting.
