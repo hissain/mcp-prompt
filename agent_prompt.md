@@ -10,21 +10,21 @@ Please follow these steps strictly:
     *   Identify the target branch (the branch the PR is merging into, typically the parent of the feature branch).
 
 3.  **Fetch Changes**:
-    *   Locally pull the latest changes for both the target branch and the feature branch.
-    *   Don't assume the target branch is `main` or any default branch.
-    *   Aways verify the actual target branch of the PR through proper commands or API calls.
+    *   Always verify that the actual target branch (base) of the PR through proper commands or API calls. You can use curl and grep to know so.
+    *   Locally pull the latest changes for both the target (base) branch and the feature branch.
+    *   Don't assume the base branch is `main`, `dev` or any default branch.
+    
 
-4.  **Diff Extraction**:
-    *   Generate a diff between the feature branch and the target branch. As new changes are going to be reviewed.
-    *   Ensure the diff captures all changes.
-    *   Ensure the diff reflects changes between the feature branch and the target branch.
+5.  **Diff Extraction**:
+    *   Generate a diff showing what changes the feature branch introduces compared to the target branch (feature - target).
+    *   You can use `git diff $FEATURE..$BASE`, or so on
 
-5.  **Context Preservation**:
+6.  **Context Preservation**:
     *   Save this diff to a local file (e.g., `pr_changes.diff`).
     *   If possible, include full file context for the modified files to ensure you have complete understanding.
     *   For reasonable number of files within the diff, if related files are available locally, you can read them to get more context.
 
-6.  **Code Review Generation**:
+7.  **Code Review Generation**:
     *   Read the saved diff/context file.
     *   Generate expert-level code review comments focusing **exclusively** on Android application development perspectives (e.g., performance, memory leaks, lifecycle issues, Modern Android practices, Kotlin/Java idioms, UI/UX consistency, library usage).
     *   You should focus only on the changes introduced in this specific PR.
@@ -35,11 +35,11 @@ Please follow these steps strictly:
     *   You can still refer to related critical code block/ code snippets or even highlight with bold or italic text styles using markdown stlyes where needed.
     *   The review should look like human like feedback, not robotic or too formal.
 
-7.  **User Verification**:
+8.  **User Verification**:
     *   Display the generated review comments to the user.
     *   Ask: "Do you agree with these comments and wish to post them to GitHub?"
 
-8.  **Action**:
+9.  **Action**:
     *   **If the user agrees**: Post the comments to the GitHub PR and perform cleanup (delete intermediate files like `pr_changes.diff` and `review_comments.md`).
     *   **If the user disagrees**: Ask for feedback or abort.
 
