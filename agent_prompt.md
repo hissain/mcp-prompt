@@ -30,13 +30,14 @@ Follow these steps strictly:
   - Dependency injection wiring changes
   - UI state ownership or architecture is impacted
 - Treat the merge-base as the semantic baseline.
+- Explore only the contents of the files within the change list.
 
 6. Code Review Generation:
 - Review only the changes introduced by this PR.
 - Focus exclusively on Android engineering concerns:
   performance, memory, lifecycle, architecture, idiomatic Kotlin/Java, UI consistency.
 - Be concise and precise.
-- Refer to file names and line numbers only.
+- Refer to file names and line numbers only not the full while commenting.
 - Do not use titles, headers, or bullet lists exclusively.
 - Write in a natural, human tone.
 - Save output to review_comments.md.
