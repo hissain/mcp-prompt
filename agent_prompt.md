@@ -11,9 +11,11 @@ Please follow these steps strictly:
 
 3.  **Fetch Changes**:
     *   Locally pull the latest changes for both the target branch and the feature branch.
+    *   Don't assume the target branch is `main` or any default branch.
+    *   Aways verify the actual target branch of the PR through proper commands or API calls.
 
 4.  **Diff Extraction**:
-    *   Generate a diff between the feature branch and the target branch.
+    *   Generate a diff between the feature branch and the target branch. As new changes are going to be reviewed.
     *   Ensure the diff captures all changes.
     *   Ensure the diff reflects changes between the feature branch and the target branch.
 
@@ -25,6 +27,7 @@ Please follow these steps strictly:
 6.  **Code Review Generation**:
     *   Read the saved diff/context file.
     *   Generate expert-level code review comments focusing **exclusively** on Android application development perspectives (e.g., performance, memory leaks, lifecycle issues, Modern Android practices, Kotlin/Java idioms, UI/UX consistency, library usage).
+    *   You should focus only on the changes introduced in this specific PR.
     *   Save these review comments to a local file (e.g., `review_comments.md`).
     *   Dont become too much elaborative, pin point specific issue and refer critical part like File name, Line numbers while discussing.
     *   Do not use full file path, simply refer by file names.
