@@ -26,8 +26,11 @@ Please follow these steps strictly:
     *   Read the saved diff/context file.
     *   Generate expert-level code review comments focusing **exclusively** on Android application development perspectives (e.g., performance, memory leaks, lifecycle issues, Modern Android practices, Kotlin/Java idioms, UI/UX consistency, library usage).
     *   Save these review comments to a local file (e.g., `review_comments.md`).
-    *   Dont become too much elaborative, pin point specific issue and refer critical part like File name (not full file path), Line numbers while discussing.
-    *   Do not use title, headers or bullet points, simply discuss major issues and recommendations within couple of paragraphs (not more that 3/4 paragraphs).
+    *   Dont become too much elaborative, pin point specific issue and refer critical part like File name, Line numbers while discussing.
+    *   Do not use full file path, simply refer by file names.
+    *   Do not use title, headers or bullet points exclusively, simply discuss major issues and recommendations within two or three paragraphs.
+    *   You can still refer to related critical code block/ code snippets or even highlight with bold or italic text styles using markdown stlyes where needed.
+    *   The review should look like human like feedback, not robotic or too formal.
 
 7.  **User Verification**:
     *   Display the generated review comments to the user.
