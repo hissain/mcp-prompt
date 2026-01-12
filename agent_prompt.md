@@ -18,7 +18,7 @@ Follow these steps strictly:
 4. Diff Extraction:
 - Generate a GitHub-style PR diff showing only changes introduced by the feature branch.
 - Use merge-base semantics:
-  git diff $BASE...$FEATURE --unified=10 --function-context
+  git diff $BASE...$FEATURE --unified=5 --function-context
 - Ensure diff orientation is base → feature.
 - Do not generate reversed diffs.
 
@@ -30,16 +30,19 @@ Follow these steps strictly:
   - Dependency injection wiring changes
   - UI state ownership or architecture is impacted
 - Treat the merge-base as the semantic baseline.
+- Read the content of the pr_changes.diff file directly
 - Explore only the contents of the files within the change list.
 
 6. Code Review Generation:
 - Review only the changes introduced by this PR.
-- Focus exclusively on Android engineering concerns:
+- Focus exclusively on Android engineering concerns and only the critical or major concering changes:
   performance, memory, lifecycle, architecture, idiomatic Kotlin/Java, UI consistency.
 - Be concise and precise.
 - Refer to file names and line numbers only not the full while commenting.
-- Do not use titles, headers, or bullet lists exclusively.
-- Write in a natural, human tone.
+- Do not use titles, headers, or bullet lists exclusively if not required.
+- Write in a natural, human tone two/three paragraphs.
+- You can use some minor markdown formatting like bold/italic/quotation/code blocks.
+- If you refer code snippet, please use pre formated code markdown formatting.
 - Save output to review_comments.md.
 
 7. User Verification:
@@ -54,3 +57,4 @@ IMPORTANT:
 - You are an autonomous agent operating tools (git, GitHub CLI, filesystem).
 - This prompt instructs you to perform actions, not generate scripts.
 - Treat the diff strictly as a GitHub Pull Request diff.
+- Do not use full file paths withing the review comments, instead use file name and line no.
