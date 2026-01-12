@@ -89,13 +89,14 @@ cline config set
 
 ```
 app/
-├── app.py              # Main Streamlit application (working version)
+├── app.py              # Main Streamlit application
 ├── config.json         # GitHub project configuration
 ├── requirements.txt    # Python dependencies
 └── README.md          # This file
 
-../
-└── agent_prompt.md     # AI agent instructions for code review
+mcp-server/             # MCP Server implementation
+├── prompts/            # Code review prompts
+└── README.md           # Server documentation and setup
 ```
 
 ## How It Works
@@ -288,34 +289,9 @@ cline log list              # List available logs
 
 ## Testing & Verification
 
-### 1. Build the MCP Server
-To verify the prompt server specifically:
+For full server documentation, tools list, and configuration details, see [mcp-server/README.md](mcp-server/README.md).
 
-```bash
-cd mcp-server
-npm install
-npm run build
-```
-
-### 2. Configure MCP Client
-Add the server to your MCP client configuration (e.g., `claude_desktop_config.json` or VS Code extension settings):
-
-```json
-"code-review-prompts": {
-  "command": "node",
-  "args": ["/absolute/path/to/mcp-prompt/mcp-server/dist/index.js"]
-}
-```
-
-### 3. Verification Steps
-1. **Check Connection**: Ensure the "code-review-prompts" server shows a green/connected status in your client.
-2. **List Prompts**: Use the `list_available_prompts` tool. You should see a list including:
-   - `android-short`, `android-medium`, `android-detailed`
-   - `java-short`, `java-medium`
-   - `kotlin-short`, etc.
-3. **Test a Prompt**: Select a prompt (e.g., "Android Code Review (Short)") and verify it returns the structured instructions starting with "Core Objectives" and "Execution Workflow".
-
-### 4. Local Verification with Inspector
+### Quick Verification (Local Inspector)
 You can verify the server locally without configuring a full client using the MCP Inspector tool:
 
 ```bash
