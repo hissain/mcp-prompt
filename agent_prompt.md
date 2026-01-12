@@ -44,6 +44,18 @@ Follow these steps strictly:
 - Write in a natural, human tone two/three paragraphs.
 - You can use some minor markdown formatting like bold/italic/quotation/code blocks.
 - If you refer code snippet, please use pre formated code markdown formatting.
+- In some critical buggy parts you can add example code block as a suggestion.
+  For example,
+  "
+  ```kotlin
+  for (int i = 0; i <= n; i++)
+  ```
+  should be replaced by,
+  ```kotlin
+  for (int i = 0; i < n; i++) # to avoid AOB error
+  ```
+  "
+  
 - Save output to review_comments.md.
 
 7. User Verification:
