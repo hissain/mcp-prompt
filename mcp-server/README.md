@@ -28,7 +28,7 @@ npm run build
 
 #### For VSCode Cline
 
-Add to your Cline MCP settings (`~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`):
+Add to your Cline MCP settings:
 
 ```json
 {
@@ -41,20 +41,9 @@ Add to your Cline MCP settings (`~/.config/Code/User/globalStorage/rooveterinary
 }
 ```
 
-#### For Claude Desktop
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
-
-```json
-{
-  "mcpServers": {
-    "code-review-prompts": {
-      "command": "node",
-      "args": ["/absolute/path/to/mcp-prompt/mcp-server/dist/index.js"]
-    }
-  }
-}
-```
+#### For configuration file locations:
+- **VSCode Cline**: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json` (or via Cline settings UI)
+- **Claude Desktop**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
 
 ## Usage
