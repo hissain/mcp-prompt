@@ -149,6 +149,15 @@ Before finalizing review:
 3. Identifies `CacheRepository.kt` has coroutine changes → reads full file
 4. Writes review:
    > In `CacheRepository.kt:89`, the coroutine launched with `GlobalScope` will outlive the repository lifecycle and could cause memory leaks if the repository is recreated. Consider using a scoped `CoroutineScope` injected via the constructor, or tie it to a component lifecycle. Additionally, at line 102, the `Flow` collector isn't canceled, which means background work continues even after the UI is destroyed—wrap this in `viewLifecycleOwner.lifecycleScope.launchWhenStarted` to respect lifecycle states.
+   >
+   > Moreover, apply following fix in `CacheRepository.kt:89` file:
+   >  ```kotlin
+   >// Instead of:
+   >lifecycleScope.launch { /* risky */ }
+   >
+   >// Use:
+   >viewLifecycleOwner.lifecycleScope.launch { /* safe */ }
+   >```
 
 5. Shows review and asks: *"Do you agree with these comments and wish to post them to GitHub?"*
 6. Dont apperciate much or add irrelevant verbose comments.
